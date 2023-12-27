@@ -1,15 +1,13 @@
 // format personName : [items]
 let persons = {};
-// format item : price
-let items = {};
 // format item : pricePerPerson
-let itemPricePerPerson = {};
-// format personName : amountOwed
-let owedPerPerson = {};
+let items = {};
 
 let rowCount = 0;
 
 document.getElementById('add-person-button').onclick = addPerson;
+document.getElementById('calculate-split-button').onclick = onCalculateSplit;
+document.getElementById('add-row-button').onclick = addRow;
 
 function addPerson() {
     let nameInput = document.getElementById("name");
@@ -20,15 +18,19 @@ function addPerson() {
     addOneCheckboxPerRow(name);
 }
 
-function addItem(name, price) {
-    items[name] = price;
+function addItemsToItemsList() {
+    // format item : price
+    items = {};
+    for (let row = 1; row < rowCount + 1; row++) {
+        itemName = document.getElementById(`row${row}-item-text-field`).value;
+        itemPrice = document.getElementById(`row${row}-price-field`).value;
+        items[itemName] = itemPrice;
+    }
 }
-
-
-document.getElementById('add-row-button').onclick = addRow;
 
 // WORKS
 function getItemPricePerPerson() {
+    let itemPricePerPerson = {};
     for (let itemName in items) {
         let count = 0;
         let price = items[itemName];
@@ -40,11 +42,14 @@ function getItemPricePerPerson() {
         }
         itemPricePerPerson[itemName] = (price) / count;
     }
+    return itemPricePerPerson;
 }
 
 // WORKS
 function getIndividualPricesOwed() {
-    getItemPricePerPerson();
+    // format personName : amountOwed
+    let owedPerPerson = {};
+    let itemPricePerPerson = getItemPricePerPerson();
     for (let personName in persons) { 
         let totalOwed = 0;
         let personItems = persons[personName];
@@ -54,6 +59,7 @@ function getIndividualPricesOwed() {
         }
         owedPerPerson[personName] = totalOwed;
     }
+    return owedPerPerson;
 }
 
 function getCheckBoxesString(row) {
@@ -146,8 +152,95 @@ function test() {
     persons["Zach"] = ["steak"];
     persons["Hayden"] = ["chicken"];
     getIndividualPricesOwed();
-    console.log(owedPerPerson);
 }
 
+function onCalculateSplit() {
+    // add all the items to the list
+    addItemsToItemsList();
+
+    for (let personName in persons) {
+        // reset list of items
+        persons[personName] = [];
+    }
+
+    for (let row = 1; row < rowCount + 1; row++) {
+        for (let personName in persons) {
+            let checkboxID = `row${row}-${personName}`
+            let selector = `#${checkboxID}:checked`;
+            let isChecked = document.querySelector(selector) !== null;
+            
+            if (isChecked) {
+                // get item name of that row
+                itemName = document.getElementById(`row${row}-item-text-field`).value;
+                // add the item to that person's list
+                persons[personName].push(itemName);
+            }         
+        }
+    }
+    // get all individual prices owed, then display it
+    let owedPerPerson = getIndividualPricesOwed();
+    console.log(owedPerPerson);
+
+    const owedTableBody = document.querySelector('.owed-section table');
+    for (let personName in persons) {
+        let rowID = `${personName}-owed-row`;
+        if (!document.getElementById(rowID)) {
+            let newRow = document.createElement('tr');
+            newRow.id = rowID;
+
+            // create the first column for name
+            let nameCell = document.createElement('td');
+            nameCell.className = 'name-cell';
+            let nameSpan = document.createElement('span');
+            nameSpan.textContent = personName;
+            nameCell.appendChild(nameSpan);
+
+            // create the second column for cost in original currency
+            let priceCellOriginalCurrency = document.createElement('td');
+            priceCellOriginalCurrency.className = 'owed-price-original-currency';
+            let originalPriceSymbolSpan = document.createElement('span');
+            // TODO: CHANGE TO EURO/CURRENCY SYMBOL
+            originalPriceSymbolSpan.textContent = '$'
+            let originalPriceSpan = document.createElement('span');
+            originalPriceSpan.id = `${personName}-owed-original`;
+            originalPriceSpan.textContent = owedPerPerson[personName];
+            priceCellOriginalCurrency.appendChild(originalPriceSymbolSpan);
+            priceCellOriginalCurrency.appendChild(originalPriceSpan);
+
+            // create the third column for cost in USD
+
+            let priceCellUSD = document.createElement('td');
+            priceCellUSD.className = 'owed-price-usd';
+            let USDPriceSymbolSpan = document.createElement('span');
+            // TODO: CHANGE TO EURO/CURRENCY SYMBOL
+            USDPriceSymbolSpan.textContent = '$'
+            let USDPriceSpan = document.createElement('span');
+            USDPriceSpan.id = `${personName}-owed-usd`;
+            USDPriceSpan.textContent = convertCurrency(owedPerPerson[personName]);
+            priceCellUSD.appendChild(USDPriceSymbolSpan);
+            priceCellUSD.appendChild(USDPriceSpan);
+
+        
+            newRow.appendChild(nameCell);
+            newRow.appendChild(priceCellOriginalCurrency);
+            newRow.appendChild(priceCellUSD);
+    
+            owedTableBody.appendChild(newRow); 
+        // if the table already exists, just update the prices   
+        } else {
+            document.getElementById(`${personName}-owed-original`).textContent = owedPerPerson[personName];
+            document.getElementById(`${personName}-owed-usd`).textContent = convertCurrency(owedPerPerson[personName]);
+        }
+    }
+}
+
+function convertCurrency(oldPrice) {
+    let conversion = getCurrency();
+    return parseFloat((oldPrice * conversion).toFixed(2));
+}
+
+function getCurrency() {
+    return 1.1;
+}
 // ADD ONE ROW ON INITIALIZATION
 addRow();
