@@ -48,7 +48,9 @@ body {
     flex: 1;
 }
 
-#add-person-button {
+#add-person-button,
+#calculate-split-button,
+#add-row-button {
     padding: 0.5rem 2rem;
     font-size: 14px;
     background-color: #005b79;
@@ -59,11 +61,18 @@ body {
     flex: 1;
 }
 
-#add-person-button:hover {
+#add-person-button:hover,
+#calculate-split-button:hover,
+#add-row-button:hover {
     cursor: pointer;
     background-color: rgb(0, 125, 167);
     border: solid white 1px;
     border-radius: 6px;
+}
+
+#add-row-button {
+    margin-top: 0.8rem;
+    margin-left: 0.8rem;
 }
 
 table {
@@ -114,7 +123,12 @@ label {
     margin-right: 0.5rem;
 }
 
-.price-field input[type="number"]{
+.price input[type="number"]{
     width: calc(85% - 3rem);
-    background-color: green;
+}
+
+.calculate-split-button-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 3rem;
 }

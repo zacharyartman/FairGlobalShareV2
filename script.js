@@ -148,3 +148,6 @@ function test() {
     getIndividualPricesOwed();
     console.log(owedPerPerson);
 }
+
+// ADD ONE ROW ON INITIALIZATION
+addRow();
