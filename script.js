@@ -19,6 +19,10 @@ document.getElementById('calculate-split-button').onclick = onCalculateSplit;
 document.getElementById('add-row-button').onclick = addRow;
 document.getElementById('remove-row-button').onclick = removeRow;
 
+document.getElementById('close-header').onclick = () => {
+    document.querySelector('.new-version-header').style.display = 'none';
+}
+
 document.getElementById('name').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       addPerson();
