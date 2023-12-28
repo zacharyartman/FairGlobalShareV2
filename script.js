@@ -17,6 +17,7 @@ let gratuityMode = 'percentage'; // 'percentage' or 'amount'
 document.getElementById('add-person-button').onclick = addPerson;
 document.getElementById('calculate-split-button').onclick = onCalculateSplit;
 document.getElementById('add-row-button').onclick = addRow;
+document.getElementById('remove-row-button').onclick = removeRow;
 
 document.getElementById('name').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
@@ -193,6 +194,18 @@ function addRow() {
     newRow.appendChild(sharedByCell);
 
     receiptTableBody.appendChild(newRow);
+}
+
+function removeRow() {
+    if (rowCount > 1) {
+        let rowID = `table-row${rowCount}`;
+        let rowElement = document.getElementById(rowID);
+        if (rowElement) {
+            rowElement.parentNode.removeChild(rowElement);
+        }    
+
+        rowCount --;
+    }
 }
 
 function onCalculateSplit() {

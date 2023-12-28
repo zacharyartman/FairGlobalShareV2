@@ -57,7 +57,8 @@ body {
 
 #add-person-button,
 #calculate-split-button,
-#add-row-button {
+#add-row-button,
+#remove-row-button {
     padding: 0.5rem 2rem;
     font-size: 14px;
     background-color: #005b79;
@@ -68,6 +69,10 @@ body {
     flex: 1;
 }
 
+#remove-row-button {
+    background-color: #66AACC;
+}
+
 #calculate-split-button {
     font-size: 16px;
     background-color: green
@@ -75,6 +80,13 @@ body {
 
 #add-person-button:hover,
 #add-row-button:hover {
+    cursor: pointer;
+    background-color: rgb(0, 125, 167);
+    border: solid white 1px;
+    border-radius: 6px;
+}
+
+#remove-row-button:hover {
     cursor: pointer;
     background-color: rgb(0, 125, 167);
     border: solid white 1px;
@@ -95,19 +107,21 @@ body {
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #ccc;
 }
 
 th,
 td {
     text-align: left;
     padding: 0.8rem;
-    border-bottom: 1px solid #ddd;
 }
 
 
 th {
     background-color: #f8f8f8;
+    border-bottom: 1px solid #ddd;
 }
 
 tr:nth-child(even) {
@@ -227,7 +241,10 @@ label {
 	table, tbody, th, td, tr { 
 		display: block; 
 	}
-	
+
+    table {
+        border: none;
+    }
 	th { 
 		display: none;
 	}
