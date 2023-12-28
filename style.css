@@ -135,6 +135,7 @@ input[type="number"] {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     background-color: white;
+    font-size: 14px;
 }
 
 label {
@@ -161,6 +162,50 @@ label {
     margin-left: 0.5rem;
 }
 
+#unaccounted-for-message {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+#unaccounted-for-text {
+    display: none;
+}
+
+.gratuity-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.gratuity-input-container div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.gratuity-input-container input {
+    max-width: 50px;
+}
+
+.gratuity-input-container input:disabled {
+    background-color: lightgray;
+}
+
+.gratuity-summary {
+    text-align: center;
+}
+.gratuity h3 {
+    padding: 0;
+    margin: 0;
+}
+.gratuity .description {
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-top: 0;
+    padding: 0;
+}
 
 @media screen and (max-width: 768px){
 
@@ -238,3 +283,4 @@ label {
         padding-left: 1rem;
     }
 }
+
