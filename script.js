@@ -4,6 +4,10 @@ let persons = {};
 let items = {};
 
 let rowCount = 0;
+// default starting currency
+let originalCurrency = 'eur';
+let currencyConversion = 1.1;
+let originalCurrencySymbol = "\u20AC";
 
 document.getElementById('add-person-button').onclick = addPerson;
 document.getElementById('calculate-split-button').onclick = onCalculateSplit;
@@ -123,16 +127,21 @@ function addRow() {
     // create an input for price = rowrowCount-price-field
     let priceCell = document.createElement('td');
     priceCell.className = 'price';
+    let priceContainer = document.createElement('div');
+    priceContainer.className = 'price-input-container';
+
     let priceSymbolSpan = document.createElement('span');
+    priceSymbolSpan.className = 'currency-symbol';
     // TODO: CHANGE TO EURO/CURRENCY SYMBOL
-    priceSymbolSpan.textContent = '$'
+    priceSymbolSpan.textContent = originalCurrencySymbol;
     let priceInput = document.createElement('input');
     priceInput.type = 'number';
     priceInput.id = `row${rowCount}-price-field`;
     priceInput.className = 'price-field'
     priceInput.placeholder = 'ex: 35.00';
-    priceCell.appendChild(priceSymbolSpan);
-    priceCell.appendChild(priceInput);
+    priceContainer.appendChild(priceSymbolSpan);
+    priceContainer.appendChild(priceInput);
+    priceCell.appendChild(priceContainer);
     // add the checkboxes
     let sharedByCell = document.createElement('td');
     sharedByCell.className = 'shared-by';
@@ -200,7 +209,8 @@ function onCalculateSplit() {
             priceCellOriginalCurrency.className = 'owed-price-original-currency';
             let originalPriceSymbolSpan = document.createElement('span');
             // TODO: CHANGE TO EURO/CURRENCY SYMBOL
-            originalPriceSymbolSpan.textContent = '$'
+            originalPriceSymbolSpan.className = 'currency-symbol';
+            originalPriceSymbolSpan.textContent = originalCurrencySymbol;
             let originalPriceSpan = document.createElement('span');
             originalPriceSpan.id = `${personName}-owed-original`;
             originalPriceSpan.textContent = owedPerPerson[personName];
@@ -212,7 +222,7 @@ function onCalculateSplit() {
             let priceCellUSD = document.createElement('td');
             priceCellUSD.className = 'owed-price-usd';
             let USDPriceSymbolSpan = document.createElement('span');
-            // TODO: CHANGE TO EURO/CURRENCY SYMBOL
+            // TODO: CHANGE TO UPDATED CURRENCY SYMBOL
             USDPriceSymbolSpan.textContent = '$'
             let USDPriceSpan = document.createElement('span');
             USDPriceSpan.id = `${personName}-owed-usd`;
@@ -235,12 +245,48 @@ function onCalculateSplit() {
 }
 
 function convertCurrency(oldPrice) {
-    let conversion = getCurrency();
-    return parseFloat((oldPrice * conversion).toFixed(2));
+    return parseFloat((oldPrice * currencyConversion).toFixed(2));
 }
 
-function getCurrency() {
-    return 1.1;
+function setCurrency(currency) {
+    if (currency == "eur") {
+        /* euro to usd */
+        currencyConversion = 1.1;
+        originalCurrencySymbol = "\u20AC";
+        updateCurrencySymbols();        
+    }
+    else if (currency == "gbp") {
+        currencyConversion = 1.27;
+        originalCurrencySymbol = "\u00A3";
+        updateCurrencySymbols();           
+    }
+    else if (currency == "mxn") {
+        currencyConversion = 0.059;
+        originalCurrencySymbol = "MX$";
+        updateCurrencySymbols();           
+    }
+    else if (currency == "jpy") {
+        currencyConversion = 0.0071;
+        originalCurrencySymbol = "\u00A5";
+        updateCurrencySymbols();           
+    }
 }
+
+const currencies = ['gbp', 'eur', 'mxn', 'jpy'];
+
+currencies.forEach(currency => {
+    document.getElementById(currency).addEventListener('click', () => {
+        setCurrency(currency);
+    });
+});
+
+function updateCurrencySymbols() {
+    document.querySelectorAll('.currency-symbol').forEach((element) => {
+        element.innerHTML = originalCurrencySymbol;
+    });            
+}
+
 // ADD ONE ROW ON INITIALIZATION
 addRow();
+setCurrency(originalCurrency);
+updateCurrencySymbols();

@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
+* {
+    transition: all 0.15s ease-in-out;
+}
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f6f8;
@@ -65,11 +68,22 @@ body {
     flex: 1;
 }
 
+#calculate-split-button {
+    font-size: 16px;
+    background-color: green
+}
+
 #add-person-button:hover,
-#calculate-split-button:hover,
 #add-row-button:hover {
     cursor: pointer;
     background-color: rgb(0, 125, 167);
+    border: solid white 1px;
+    border-radius: 6px;
+}
+
+#calculate-split-button:hover {
+    cursor: pointer;
+    background-color: darkgreen;
     border: solid white 1px;
     border-radius: 6px;
 }
@@ -135,4 +149,92 @@ label {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     height: 3rem;
+}
+
+.price-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.price-input-container .price-field {
+    flex-grow: 1;
+    margin-left: 0.5rem;
+}
+
+
+@media screen and (max-width: 768px){
+
+    .add-person-input {
+        flex-direction: column;
+    }
+
+    #name {
+        width: auto;
+    }
+
+    #add-row-button {
+        margin-left: 0.3rem;
+    }
+    .calculate-split-button-container {
+        grid-template-columns: 1fr 15fr 1fr;
+    }
+
+	table, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	th { 
+		display: none;
+	}
+	
+	tr { 
+        border: 0.5px solid #ccc; 
+        margin-top: 1rem;
+        border-radius: 10px;
+    }
+	
+	td { 
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		position: absolute;
+		top: 30%;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+
+    td.shared-by {
+        min-height: 25px;
+    }
+	
+    td.item:before {
+        content: "Item";
+        padding-left: 1rem;
+    }
+    td.price:before {
+        content: "Price";
+        padding-left: 1rem;
+    }
+    td.shared-by:before {
+        content: "Shared By";
+        padding-left: 1rem;
+    }
+    td.name-cell:before {
+        content: "Name";
+        padding-left: 1rem;
+    }
+    td.owed-price-original-currency:before {
+        content:"Cost(Original)";
+        padding-left: 1rem;
+    }
+    td.owed-price-usd:before{
+        content: "Cost(Converted)";
+        padding-left: 1rem;
+    }
 }
