@@ -180,6 +180,8 @@ function addRow() {
     priceInput.id = `row${rowCount}-price-field`;
     priceInput.className = 'price-field'
     priceInput.placeholder = 'ex: 35.00';
+    priceInput.pattern = "\\d*"; 
+    priceInput.inputmode = "decimal";
     priceContainer.appendChild(priceSymbolSpan);
     priceContainer.appendChild(priceInput);
     priceCell.appendChild(priceContainer);

@@ -74,19 +74,19 @@
     <div class="gratuity">
         <div class="gratuity-summary">
             <h3>Gratuity & Tax</h3>
-            <p class="description">You can add gratuity as a percentage or a dollar amount. Either way, it is distributed proportionately to each
-                person's individual cost to ensure fair contributions. </p>    
+            <p class="description"><i>You can add the total gratuity and tax amount as a percentage or a dollar amount. Either way, it is distributed proportionately to each
+                person's individual cost to ensure fair contributions.</i></p>    
         </div>
         <div class="gratuity-input-container">
             <div class="gratuity-percentage-div">
                 <input type="radio" id="gratuity-percentage-option" name="gratuity-option" checked>
                 <label for="gratuity-percentage-option">(%)</label>
-                <input type="number" id="gratuity-percentage" placeholder="%">
+                <input type="number" id="gratuity-percentage" placeholder="%" pattern="\d*" inputmode="decimal">
             </div>
             <div>
                 <input type="radio" id="gratuity-amount-option" name="gratuity-option">
                 <label for="gratuity-amount-option">(<span class="currency-symbol"></span>)</label>
-                <input type="number" id="gratuity-amount" placeholder="" disabled>
+                <input type="number" id="gratuity-amount" placeholder="" pattern="\d*" inputmode="decimal" disabled>
             </div>
         </div>
     </div>
